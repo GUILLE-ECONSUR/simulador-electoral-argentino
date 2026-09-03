@@ -18,16 +18,6 @@ interface SimulacionResultado {
   };
 }
 
-function formatMes(ym: string) {
-  const [y, m] = ym.split("-");
-  const meses = [
-    "ene", "feb", "mar", "abr", "may", "jun",
-    "jul", "ago", "sep", "oct", "nov", "dic",
-  ];
-  const idx = parseInt(m, 10) - 1;
-  return `${meses[idx] ?? m}-${y.slice(2)}`;
-}
-
 export default function SimulatorForm() {
   const [riesgoPais, setRiesgoPais] = useState<string>("");
   const [tcn, setTcn] = useState<string>("");
@@ -105,10 +95,6 @@ export default function SimulatorForm() {
                 pb
               </span>
             </div>
-            <p className="mt-1.5 text-xs text-gris-intenso">
-              Spread EMBI de Argentina. Se usa directamente en el Modelo E; para el
-              Modelo F se le resta el EMBI LATINO más reciente de la serie.
-            </p>
           </div>
 
           <div>
@@ -131,22 +117,10 @@ export default function SimulatorForm() {
                 onChange={(e) => setTcn(e.target.value)}
               />
             </div>
-            <p className="mt-1.5 text-xs text-gris-intenso">
-              Se convierte a tipo de cambio real (TCR) usando el mismo índice de
-              precios de la serie histórica.
-            </p>
           </div>
         </div>
 
-        <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
-          <p className="text-xs text-gris-intenso">
-            El ICG y el EMBI LATINO se toman automáticamente del último dato
-            cargado en la serie
-            {resultado?.inputs.fechaUltimoDato
-              ? ` (${formatMes(resultado.inputs.fechaUltimoDato)})`
-              : ""}
-            .
-          </p>
+        <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:justify-end">
           <button type="submit" className="btn-primary w-full sm:w-auto" disabled={loading}>
             {loading ? (
               <>
@@ -233,3 +207,4 @@ function Spinner() {
     </svg>
   );
 }
+
